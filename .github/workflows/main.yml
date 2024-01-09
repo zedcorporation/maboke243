@@ -36,6 +36,6 @@ jobs:
         force: true
         directory: ./dist
     
-     - name: Set custom domain
-        run: |
-          echo "REACT_APP_CUSTOM_DOMAIN=${{ CUSTOM_DOMAIN }}" >> .env
+    - name: Set custom domain
+      run: |
+        echo "REACT_APP_CUSTOM_DOMAIN=${{ CUSTOM_DOMAIN }}" >> .env
