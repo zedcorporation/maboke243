@@ -2,11 +2,9 @@ name: Deploy maboke243
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -16,20 +14,25 @@ jobs:
       CUSTOM_DOMAIN: www.maboke243.com
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          node-version: '16'
-
-      - name: Copy index.html to 404.html
-        run: |
-          cp dist/index.html dist/404.html
-
-      - name: Build and deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gui-prod
-          folder: dist
-          cname: ${{ env.CUSTOM_DOMAIN }}
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+       node-version: '16
+    
+    - name: Init new repo in prod folder and commit files
+      run: |
+        cd  dist/
+        cp index.html 404.html
+        git init
+        git add -A
+        git config --local user.email "zcore243@gmail.com"
+        git config --local user.name "zcorp"
+        git commit -m 'deploy'
+        
+    - name: Force push to destination branch
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.ACCESS_TOKEN }}
+        branch: gui-prod #gui-prod
+        force: true
+        directory: ./dist
+        cname: ${{ env.CUSTOM_DOMAIN }}
