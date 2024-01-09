@@ -35,7 +35,7 @@ jobs:
     - name: Build and deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.ACCESS_TOKEN }}
+        deploy_key: ${{ secrets.ACCESS_TOKEN_TEST }}
         publish_dir: dist
         publish_branch: gui-prod
         cname: ${{ env.CUSTOM_DOMAIN }}
