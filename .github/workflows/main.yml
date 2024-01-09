@@ -10,8 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      CUSTOM_DOMAIN: www.maboke243.com
+    #env:
+    #  CUSTOM_DOMAIN: www.maboke243.com
 
     steps:
     - uses: actions/checkout@v2
@@ -35,4 +35,4 @@ jobs:
         branch: gui-prod #gui-prod
         force: true
         directory: ./dist
-        cname: ${{ env.CUSTOM_DOMAIN }}
+      #  cname: ${{ env.CUSTOM_DOMAIN }}
