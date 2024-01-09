@@ -18,24 +18,36 @@ jobs:
       with:
        node-version: '16'
     
-    - name: Init new repo in prod folder and commit files
+    - name: Copy index.html to 404.html
       run: |
-        cd  dist/
-        cp index.html 404.html
-        git init
-        git add -A
-        git config --local user.email "zcore243@gmail.com"
-        git config --local user.name "zcorp"
-        git commit -m 'deploy'
+        cp dist/index.html dist/404.html
         
-    - name: Force push to destination branch
-      uses: ad-m/github-push-action@master
+    #- name: Init new repo in prod folder and commit files
+    #  run: |
+    #    cd  dist/
+    #    cp index.html 404.html
+    #    git init
+    #    git add -A
+    #    git config --local user.email "zcore243@gmail.com"
+    #    git config --local user.name "zcorp"
+    #    git commit -m 'deploy'
+
+    - name: Build and deploy
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.ACCESS_TOKEN }}
-        branch: gui-prod #gui-prod
-        force: true
-        directory: ./dist
+        deploy_key: ${{ secrets.ACCESS_TOKEN }}
+        publish_dir: dist
+        publish_branch: gui-prod
+        custom_domain: ${{ env.CUSTOM_DOMAIN }}
+        
+   # - name: Force push to destination branch
+   #   uses: ad-m/github-push-action@master
+   #   with:
+   #     github_token: ${{ secrets.ACCESS_TOKEN }}
+   #     branch: gui-prod #gui-prod
+   #     force: true
+   #     directory: ./dist
     
-    - name: Set custom domain
-      run: |
-        echo "REACT_APP_CUSTOM_DOMAIN=${{ CUSTOM_DOMAIN }}" >> .env
+   # - name: Set custom domain
+   #   run: |
+   #     echo "REACT_APP_CUSTOM_DOMAIN=${{ CUSTOM_DOMAIN }}" >> .env
