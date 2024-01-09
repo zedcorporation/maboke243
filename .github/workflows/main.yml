@@ -2,9 +2,11 @@ name: Deploy maboke243
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -14,18 +16,20 @@ jobs:
       CUSTOM_DOMAIN: www.maboke243.com
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-       node-version: '16'
-    
-    - name: Copy index.html to 404.html
-      run: |
-        cp dist/index.html dist/404.html
-      
-    - name: Build and deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.ACCESS_TOKEN }}
-        publish_dir: dist
-        publish_branch: gui-prod
-        cname: ${{ env.CUSTOM_DOMAIN }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          node-version: '16'
+
+      - name: Copy index.html to 404.html
+        run: |
+          cp dist/index.html dist/404.html
+
+      - name: Build and deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gui-prod
+          folder: dist
+          cname: ${{ env.CUSTOM_DOMAIN }}
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
