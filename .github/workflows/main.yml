@@ -9,7 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
+    env:
+      CUSTOM_DOMAIN: www.maboke243.com
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -25,6 +28,12 @@ jobs:
         git config --local user.name "zcorp"
         git commit -m 'deploy'
         
+    - name: Create CNAME file
+      run: |
+        echo "${CUSTOM_DOMAIN}" > CNAME
+        git add CNAME
+        git commit -m 'Add CNAME file'
+
     - name: Force push to destination branch
       uses: ad-m/github-push-action@master
       with:
